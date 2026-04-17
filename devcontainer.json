@@ -1,9 +1,0 @@
-{
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "vsciot-vscode.vscode-arduino"
-      ]
-    }
-  }
-}
