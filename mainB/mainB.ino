@@ -81,3 +81,28 @@ bool compare_ans_passwd(char ans[]){
   }
   return verifier;
 }
+
+
+
+
+void modif_password(char new_password[], char password[], char touche){
+  int lenpwd = 0;
+    //Initialisation nouveau mot de passe
+    while(lenpwd < PASSWD)
+    {
+      if (touche)
+      {
+      	Serial.print("Touche pressee : ");
+        answer[answer_count] = touche;
+        Serial.println(touche);
+        Serial.println(answer_count);
+      
+    	password[answer_count] = new_password[answer_count];
+      	answer_count++;
+        delay (500);
+      }
+      
+      else Serial.println("En attente...");
+  	}
+    Serial.println("Mot de passe modifie");
+}
