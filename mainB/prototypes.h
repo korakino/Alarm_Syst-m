@@ -37,3 +37,7 @@ char password[PASSWD] = { '1', '2', '3' };
 char answer[PASSWD]; // Plus besoin de le remplir de zéros
 int answer_count = 0;
 
+bool alarme_active = true;
+unsigned long tempsPrecedent = 0; 
+const long intervalle = 500; // La LED clignotera toutes les 500 millisecondes
+int etatLED = LOW;
