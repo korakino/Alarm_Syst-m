@@ -34,10 +34,11 @@ void loop() {
   if (touche) {  // Si une touche a été pressée
     if (touche == '*'){
           if (compare_ans_passwd(answer)){ 
+            alarme_armee = false;
             alarme_active = false;
             noTone(buzzer);       // On coupe le son immédiatement
             digitalWrite(LEDPin, LOW);
-            
+            tempsDesarmement = millis();
             LCD.CleanAll(WHITE);
             LCD.CharGotoXY(0,0);
             LCD.print("Access GRANTED");
@@ -52,7 +53,8 @@ void loop() {
             }
     }
     else{
-
+      LCD.CleanAll(WHITE); 
+      LCD.CharGotoXY(0,0);
       LCD.print("Touche pressee : ");
       Serial.print("Touche pressee : ");
 
@@ -65,39 +67,38 @@ void loop() {
   }
 
   // --- SI MOUVEMENT DETECTE (L'ALARME SONNE) ---
-  if(mouvement == HIGH && alarme_active) {
+  if(mouvement == HIGH && alarme_armee) {
     digitalWrite(LEDPin, HIGH);
     Serial.println("ALERTE : Mouvement detecte !");
-    
-    // On garde les delay() ici car l'alarme est en cours, c'est moins grave de bloquer un peu
-    tone(buzzer, 4000);
-    delay(200);
-    tone(buzzer, 2000);
-    delay(200);
+    alarme_active = true;
   }
-  
-  // --- SI AUCUN MOUVEMENT (MODE VEILLE) ---
-  else {
-    noTone(buzzer); // On s'assure que le buzzer est éteint
-    
-    unsigned long tempsActuel = millis(); // On regarde le chronomètre
-
-    // Si 500ms se sont écoulées...
-    if (tempsActuel - tempsPrecedent >= intervalle) {
-      tempsPrecedent = tempsActuel; // On met à jour la mémoire du temps
+  if (alarme_active){
+    if (millis() - chronoBuzzer >= 200) { 
+      chronoBuzzer = millis(); // On remet le chronomètre à zéro
       
-      // On inverse l'état de la LED (si elle est éteinte on l'allume, et vice-versa)
-      if (etatLED == LOW) {
-        etatLED = HIGH;
+      if (noteAigue) {
+        tone(buzzer, 4000);
+        noteAigue = false; // La prochaine fois, on fera la note grave
       } else {
-        etatLED = LOW;
+        tone(buzzer, 2000);
+        noteAigue = true;  // La prochaine fois, on fera la note aiguë
       }
-      digitalWrite(LEDPin, etatLED); // On applique le nouvel état à la LED
     }
   }
-  
-  
-  
+  if (!alarme_armee){
+    //attendre 1 minute avant de re armer l'alarme
+    unsigned long tempsEcoule = millis() - tempsDesarmement;
+    
+    // Si 60 secondes se sont écoulées...
+    if (tempsEcoule >= 60000) {
+      alarme_armee = true; // On réactive la surveillance
+      
+      LCD.CleanAll(WHITE);
+      LCD.CharGotoXY(0,0);
+      LCD.print("Alarme armee !");
+      Serial.println("Alarme re-armee automatiquement.");
+    }
+  }  
 }
 
 bool compare_ans_passwd(char ans[]){
@@ -127,7 +128,6 @@ void modif_password(char new_password[], char password[], char touche){
       
     	  password[answer_count] = new_password[answer_count];
       	answer_count++;
-        delay (500);
       }
       
       else Serial.println("En attente...");

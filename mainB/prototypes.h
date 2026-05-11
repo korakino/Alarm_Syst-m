@@ -3,6 +3,7 @@
 #define PASSWD 3
 #include <Wire.h>
 #include <I2C_LCD.h>
+
 I2C_LCD LCD;
 uint8_t I2C_LCD_ADDRESS = 0x51; //Device address configuration, the default value is 0x51.
 
@@ -42,7 +43,11 @@ char password[PASSWD] = { '1', '2', '3' };
 char answer[PASSWD]; // Plus besoin de le remplir de zéros
 int answer_count = 0;
 
-bool alarme_active = true;
+bool alarme_armee = true;
+bool alarme_active = false;
 unsigned long tempsPrecedent = 0; 
 const long intervalle = 500; // La LED clignotera toutes les 500 millisecondes
 int etatLED = LOW;
+unsigned long chronoBuzzer = 0;
+bool noteAigue = true;
+unsigned long tempsDesarmement = 0;
