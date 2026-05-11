@@ -1,8 +1,6 @@
 # 🚨 Alarm_Syst-m (Domotic Alarm System)
 
-Un système de sécurité domotique complet basé sur **Arduino Uno R3**. Ce projet étudiant intègre la détection de mouvement, le contrôle d'accès par code secret et des alertes visuelles/sonores.
-
-L'une des grandes forces de ce code est son architecture **non-bloquante** (utilisation de la fonction `millis()`), permettant au système de rester fluide et à l'écoute du clavier même lorsque la sirène d'alerte est déclenchée.
+Un système de sécurité domotique complet basé sur **Arduino Uno R3**. Intègre la détection de mouvement, le contrôle d'accès par code secret et des alertes visuelles/sonores.
 
 ## ✨ Fonctionnalités Principales
 
