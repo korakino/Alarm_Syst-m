@@ -1,9 +1,14 @@
 #include "prototypes.h"
+#include <Wire.h>
+#include <I2C_LCD.h>
+I2C_LCD LCD;
+uint8_t I2C_LCD_ADDRESS = 0x51; //Device address configuration, the default value is 0x51.
 
 
 
 void setup() {
   // On initialise la communication avec l'ordinateur
+  Wire.begin();
   Serial.begin(9600);
   Serial.println("Systeme d'alarme demarre. En attente du code...");
   pinMode(buzzer, OUTPUT);
@@ -12,11 +17,49 @@ void setup() {
 }
 
 void loop() {
+  LCD.CleanAll(WHITE);    //Clean the screen with black or white.
+  
+  //8*16 font size��auto new line��black character on white back ground.
+  LCD.FontModeConf(Font_6x8, FM_ANL_AAA, BLACK_BAC);
+
   char touche = monClavier.getKey();  // On écoute le clavier
 
   mouvement = digitalRead(movePin);
 
-// --- SI MOUVEMENT DETECTE (L'ALARME SONNE) ---
+  if (touche) {  // Si une touche a été pressée
+    if (touche == '*'){
+          if (compare_ans_passwd(answer)){ 
+            alarme_active = false;
+            Serial.println("access granted");
+            LCD.CharGotoXY(0,0);
+            LCD.print("access granted");
+          }
+          else Serial.println("access denied");
+          LCD.CharGotoXY(0,0);
+          LCD.print("access denied");
+          answer_count = 0; 
+
+          delay(2000);
+          LCD.CharGotoXY(0,0);
+          LCD.print("En attente du prochain code...");
+          Serial.println("En attente du prochain code...");
+          delay(2000);
+    }
+    else{
+      LCD.CharGotoXY(0,0);
+      LCD.print("Touche pressee : ");
+      Serial.print("Touche pressee : ");
+
+      answer[answer_count] = touche;
+      LCD.CharGotoXY(50,0);
+      LCD.print(touche);
+      Serial.println(touche);
+      Serial.println(answer_count);
+      answer_count++;
+    }
+  }
+
+  // --- SI MOUVEMENT DETECTE (L'ALARME SONNE) ---
   if(mouvement == HIGH && alarme_active) {
     digitalWrite(LEDPin, HIGH);
     Serial.println("ALERTE : Mouvement detecte !");
@@ -49,26 +92,6 @@ void loop() {
   }
   
   
-  if (touche) {  // Si une touche a été pressée
-    if (touche == '*'){
-          if (compare_ans_passwd(answer)){ 
-            alarme_active = false;
-            Serial.println("access garanted");
-            }
-          else Serial.println("access denied");
-          answer_count = 0; 
-          Serial.println("En attente du prochain code...");
-    }
-    else{
-      Serial.print("Touche pressee : ");
-      answer[answer_count] = touche;
-      Serial.println(touche);
-      Serial.println(answer_count);
-      answer_count++;
-    }
-    
-  }
-  
   
 }
 
@@ -97,7 +120,7 @@ void modif_password(char new_password[], char password[], char touche){
         Serial.println(touche);
         Serial.println(answer_count);
       
-    	password[answer_count] = new_password[answer_count];
+    	  password[answer_count] = new_password[answer_count];
       	answer_count++;
         delay (500);
       }

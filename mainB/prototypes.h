@@ -6,8 +6,8 @@
 const byte ROWS = 4;  // 4 lignes
 const byte COLS = 3;  // 3 colonnes
 int LEDPin = 13;
-int buzzer = 12;
-int movePin = 11;
+int buzzer = 10;
+int movePin = 12;
 int mouvement = 0;
 
 
