@@ -1,8 +1,4 @@
 #include "prototypes.h"
-#include <Wire.h>
-#include <I2C_LCD.h>
-I2C_LCD LCD;
-uint8_t I2C_LCD_ADDRESS = 0x51; //Device address configuration, the default value is 0x51.
 
 
 
@@ -14,13 +10,22 @@ void setup() {
   pinMode(buzzer, OUTPUT);
   pinMode(movePin, INPUT);
   pinMode(LEDPin, OUTPUT);
+
+
+  // Initialisation de l'écran UNE SEULE FOIS au démarrage
+  LCD.CleanAll(WHITE);    
+  LCD.FontModeConf(Font_6x8, FM_ANL_AAA, BLACK_BAC);
+  LCD.CharGotoXY(0,0);
+  LCD.print("Alarme armee !");
+  LCD.CharGotoXY(0,16);
+  LCD.print("En attente...");
+  
+  Serial.println("Systeme d'alarme demarre.");
+
 }
 
 void loop() {
-  LCD.CleanAll(WHITE);    //Clean the screen with black or white.
-  
-  //8*16 font size��auto new line��black character on white back ground.
-  LCD.FontModeConf(Font_6x8, FM_ANL_AAA, BLACK_BAC);
+
 
   char touche = monClavier.getKey();  // On écoute le clavier
 
@@ -30,28 +35,28 @@ void loop() {
     if (touche == '*'){
           if (compare_ans_passwd(answer)){ 
             alarme_active = false;
-            Serial.println("access granted");
+            noTone(buzzer);       // On coupe le son immédiatement
+            digitalWrite(LEDPin, LOW);
+            
+            LCD.CleanAll(WHITE);
             LCD.CharGotoXY(0,0);
-            LCD.print("access granted");
+            LCD.print("Access GRANTED");
+            Serial.println("Access GRANTED");
           }
-          else Serial.println("access denied");
-          LCD.CharGotoXY(0,0);
-          LCD.print("access denied");
-          answer_count = 0; 
-
-          delay(2000);
-          LCD.CharGotoXY(0,0);
-          LCD.print("En attente du prochain code...");
-          Serial.println("En attente du prochain code...");
-          delay(2000);
+          else {
+            // Mauvais code
+            LCD.CleanAll(WHITE);
+            LCD.CharGotoXY(0,0);
+            LCD.print("Access DENIED");
+            Serial.println("Access DENIED");
+            }
     }
     else{
-      LCD.CharGotoXY(0,0);
+
       LCD.print("Touche pressee : ");
       Serial.print("Touche pressee : ");
 
       answer[answer_count] = touche;
-      LCD.CharGotoXY(50,0);
       LCD.print(touche);
       Serial.println(touche);
       Serial.println(answer_count);
