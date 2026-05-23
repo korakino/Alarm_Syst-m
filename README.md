@@ -18,7 +18,6 @@ L'une des grandes forces de ce code est son architecture **non-bloquante** (util
 * `/mainB/` : Contient le cœur du projet.
   * `mainB.ino` : Boucle principale et logique d'états de l'alarme.
   * `prototypes.h` : Déclarations des fonctions, variables globales et configuration de la matrice du clavier.
-* `/I2C_LCD_master/` : Ressources pour l'écran.
   * `resources/I2C_LCD_Library.zip` : **⚠️ Bibliothèque requise à installer manuellement** pour faire fonctionner l'affichage.
 
 ## 🛠️ Matériel Requis (Hardware)
@@ -45,7 +44,7 @@ L'une des grandes forces de ce code est son architecture **non-bloquante** (util
 
 ## 🚀 Installation & Utilisation
 
-1. **Installer la bibliothèque LCD :** * Téléchargez le fichier `I2C_LCD_Library.zip` situé dans le dossier `/I2C_LCD_master/resources/`.
+1. **Installer la bibliothèque LCD :** * Téléchargez le fichier `I2C_LCD_Library.zip`.
    * Dans l'IDE Arduino, allez dans *Croquis > Inclure une bibliothèque > Ajouter la bibliothèque .ZIP* et sélectionnez ce fichier.
 2. Assurez-vous d'avoir également la bibliothèque `Keypad` installée via le gestionnaire de bibliothèques.
 3. Ouvrez le fichier `mainB/mainB.ino` dans l'IDE Arduino et téléversez-le sur votre carte.
