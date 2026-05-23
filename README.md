@@ -44,7 +44,8 @@ L'une des grandes forces de ce code est son architecture **non-bloquante** (util
 
 ## 🚀 Installation & Utilisation
 
-1. **Installer la bibliothèque LCD :** * Téléchargez le fichier `I2C_LCD_Library.zip`.
+1. **Installer la bibliothèque LCD :** 
+   * Téléchargez le fichier `I2C_LCD_Library.zip`.
    * Dans l'IDE Arduino, allez dans *Croquis > Inclure une bibliothèque > Ajouter la bibliothèque .ZIP* et sélectionnez ce fichier.
 2. Assurez-vous d'avoir également la bibliothèque `Keypad` installée via le gestionnaire de bibliothèques.
 3. Ouvrez le fichier `mainB/mainB.ino` dans l'IDE Arduino et téléversez-le sur votre carte.
