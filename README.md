@@ -15,8 +15,8 @@ L'une des grandes forces de ce code est son architecture **non-bloquante** (util
 
 ## 📁 Architecture du Dépôt
 
-* `/mainB/` : Contient le cœur du projet.
-  * `mainB.ino` : Boucle principale et logique d'états de l'alarme.
+* `/main/` : Contient le cœur du projet.
+  * `main.ino` : Boucle principale et logique d'états de l'alarme.
   * `prototypes.h` : Déclarations des fonctions, variables globales et configuration de la matrice du clavier.
   * `resources/I2C_LCD_Library.zip` : **⚠️ Bibliothèque requise à installer manuellement** pour faire fonctionner l'affichage.
 
@@ -28,7 +28,7 @@ L'une des grandes forces de ce code est son architecture **non-bloquante** (util
 * 1x Écran LCD I2C (Adresse par défaut `0x51`)
 * 1x Buzzer passif
 * 1x LED rouge ou composant visuel
-* **2x Résistances de 220Ω** (Une pour la LED, une pour le buzzer)
+* 2x Résistances de 220Ω (Une pour la LED, une pour le buzzer)
 * Plaque d'essai et câbles de connexion (Jumper wires)
 
 ## 🔌 Câblage (Pinout)
@@ -48,11 +48,11 @@ L'une des grandes forces de ce code est son architecture **non-bloquante** (util
    * Téléchargez le fichier `I2C_LCD_Library.zip`.
    * Dans l'IDE Arduino, allez dans *Croquis > Inclure une bibliothèque > Ajouter la bibliothèque .ZIP* et sélectionnez ce fichier.
 2. Assurez-vous d'avoir également la bibliothèque `Keypad` installée via le gestionnaire de bibliothèques.
-3. Ouvrez le fichier `mainB/mainB.ino` dans l'IDE Arduino et téléversez-le sur votre carte.
+3. Ouvrez le fichier `main/main.ino` dans l'IDE Arduino et téléversez-le sur votre carte.
 4. **Utilisation :**
-   * Au démarrage, l'écran s'initialise. Tapez votre code puis `*` pour armer le système.
+   * Au démarrage, l'écran s'initialise.
    * En cas de mouvement, la LED s'allume et l'alarme sonne.
-   * Retapez votre code puis `*` pour désarmer et stopper l'alerte.
+   * Tapez votre code puis `*` pour désarmer et stopper l'alerte ou pour le réarmer si il a été désarmé précédemment. 
 
 ## 📄 Licence
 Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
