@@ -22,7 +22,7 @@ void setup() {
 
 
   Serial.println("\nSysteme d'alarme demarre. En attente du code...");
-
+  delay(60000);
 
 
 
@@ -35,7 +35,8 @@ void loop() {
 
   char touche = monClavier.getKey();  // On écoute le clavier
 
-  mouvement = digitalRead(movePin);
+  mouvement = analogRead(movePin);
+  // Serial.println(mouvement);
 
 
   if (touche) {  // Si une touche a été pressée
@@ -92,9 +93,12 @@ void loop() {
 
 
   // --- SI MOUVEMENT DETECTE (L'ALARME SONNE) ---
-  if (mouvement == HIGH && alarme_armee && !alarme_active) {
+  if (mouvement >= 100 && alarme_armee && !alarme_active) {
     digitalWrite(LEDPin, HIGH);
     Serial.println("ALERTE : Mouvement detecte !");
+    LCD.CleanAll(WHITE);
+    LCD.CharGotoXY(0, 0);
+    LCD.print("ALERTE : Mouvement detecte !");
     alarme_active = true;
   }
 
@@ -105,12 +109,17 @@ void loop() {
 
       if (noteAigue) {
         tone(buzzer, 1500);
+        Serial.println(mouvement);
         // Serial.println("BIP !");
+        digitalWrite(LEDPin, HIGH);
+
         noteAigue = false;  // La prochaine fois, on fera la note grave
       } else {
         tone(buzzer, 1000);
+        Serial.println(mouvement);
         // Serial.println("BIP !");
         noteAigue = true;  // La prochaine fois, on fera la note aiguë
+        digitalWrite(LEDPin, LOW);
       }
     }
   }
