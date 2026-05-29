@@ -1,8 +1,7 @@
 #include <Keypad.h>
-#include <stdlib.h>
-#define PASSWD 3
 #include <Wire.h>
 #include <I2C_LCD.h>
+#define PASSWD 3
 
 I2C_LCD LCD;
 uint8_t I2C_LCD_ADDRESS = 0x51; //Device address configuration, the default value is 0x51.
