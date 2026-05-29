@@ -1,8 +1,7 @@
 #include <Keypad.h>
-#include <stdlib.h>
-#define PASSWD 3
 #include <Wire.h>
 #include <I2C_LCD.h>
+#define PASSWD 3
 
 I2C_LCD LCD;
 uint8_t I2C_LCD_ADDRESS = 0x51; //Device address configuration, the default value is 0x51.
@@ -13,7 +12,7 @@ const byte ROWS = 4;  // 4 lignes
 const byte COLS = 3;  // 3 colonnes
 int LEDPin = 13;
 int buzzer = 10;
-int movePin = 12;
+int movePin = A1;
 int mouvement = 0;
 
 
